@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Filmes e Séries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #645e5e; /* Botões cinza */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #bbb; /* Bordas suaves */
+        }
+
+        .button:hover {
+            background-color: #bbb; /* Efeito ao passar o mouse */
+        }
+
+        .filmes-series-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .filme-serie-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 220px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .filme-serie-item img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .actions a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'listar_filmes_series' %}">Home</a></li>  <!-- Página de listar filmes e séries -->
+            <li><a href="{% url 'criar_filme_serie' %}">Adicionar Filme/Série</a></li>  <!-- Página de adicionar filme -->
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Lista de Filmes e Séries</h2>
+        <div class="filmes-series-list">
+            <!-- Loop de filmes/séries gerado pelo backend -->
+            {% for filme_serie in filmes_series %}
+                <div class="filme-serie-item">
+                    {% if filme_serie.capa %}
+                        <img src="{{ filme_serie.capa.url }}" alt="{{ filme_serie.nome }}">
+                    {% else %}
+                        <p>Sem imagem disponível</p>
+                    {% endif %}
+                    <h3>{{ filme_serie.nome }}</h3>
+                    <p>{{ filme_serie.descricao }}</p>
+                    <p>Categoria: {{ filme_serie.categoria }}</p>
+                    <div class="actions">
+                        <a href="{% url 'editar_filme_serie' filme_serie.id %}" class="button">Editar</a>
+                        <a href="{% url 'excluir_filme_serie' filme_serie.id %}" class="button">Excluir</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+</body>
+</html>
